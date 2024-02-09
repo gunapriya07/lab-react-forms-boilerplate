@@ -1,6 +1,5 @@
-import "./Form.css";
-import { useState } from "react";
-
+import React, { useState } from 'react';
+import './Form.css'
 const initialState = {
     fname: "",
     lname: "",
@@ -11,7 +10,7 @@ const initialState = {
 const Form = () => {
     const [formData, setFormData] = useState(initialState);
     const [formError, setFormErrors] = useState({});
-    const [registerStatus, setRegisterStatus] = useState(false);
+    const [registerStatus,setRegisterStatus]=useState(false)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,28 +20,26 @@ const Form = () => {
     const validateData = (data) => {
         const err = {};
         const { fname, lname, email, phone } = data;
-
         if (fname.trim() === "") {
             err.fname = "Please enter your first name!";
-        } else if (!/^[a-zA-Z]+$/.test(fname)) {
-            err.fname = "Please enter valid first name";
+        }else if (! /^[a-zA-Z]+$/.test(fname)) {
+            err.fname = "Please enter a valid Name!";
         }
         if (lname.trim() === "") {
             err.lname = "Please enter your last name!";
+        }else if (! /^[a-zA-Z]+$/.test(fname)) {
+            err.fname = "Please enter a valid Name!";
         }
         if (email.trim() === "") {
-            err.email = "Please enter your emailId!";
+            err.email = "Please enter your email!";
         } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-            err.email = "Please enter valid email";
+            err.email = "Please enter a valid email address!";
         }
-        if (phone.trim() === "") {
+        if (phone.trim() === ""|| !/^\d+$/.test(phone)) {
             err.phone = "Please enter your phone number!";
-        } else if (!/^\d+$/.test(phone)) {
-            err.phone = "Please enter valid phone number";
-        } else if (phone.split("").length < 10) {
-            err.phone = "Please enter 10-digit phone number!";
+        } else if (phone.split("").length <10) {
+            err.phone = "Please enter a 10-digit phone number!";
         }
-
         return err;
     };
 
@@ -50,24 +47,20 @@ const Form = () => {
         e.preventDefault();
         const errors = validateData(formData);
         setFormErrors(errors);
-
-        if (Object.keys(errors).length === 0) {
+        if (Object.keys(errors).length===0){
             setRegisterStatus(true);
-            setFormData(initialState);
-        } else {
-            setRegisterStatus(false);
+        }else{
+            setRegisterStatus(false)
         }
     };
 
     return (
-        <div className="form-container">
+        <div className='form-container'>
             {registerStatus && (
-                <div className="succss-msg-container">
-                    <span className="success-msg">
-                        Registration Successful.
-                    </span>
+                <div className='success-msg-container'>
+                    <p className='success-msg'>Registration Successfull.</p>
                 </div>
-            )}
+                )}
             <form onSubmit={handleSubmit}>
                 <div>
                     <input
@@ -77,9 +70,7 @@ const Form = () => {
                         value={formData.fname}
                         onChange={handleChange}
                     />
-                    {formError.fname && (
-                        <p className="err">{formError.fname}</p>
-                    )}
+                    {formError.fname &&( <p className='err'>{formError.fname}</p>)}
                 </div>
                 <div>
                     <input
@@ -89,21 +80,17 @@ const Form = () => {
                         value={formData.lname}
                         onChange={handleChange}
                     />
-                    {formError.lname && (
-                        <p className="err">{formError.lname}</p>
-                    )}
+                    {formError.lname && (<p className='err'>{formError.lname}</p>)}
                 </div>
                 <div>
                     <input
-                        type="text"
-                        placeholder="Email Id"
+                        type="email"
+                        placeholder="Email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                     />
-                    {formError.email && (
-                        <p className="err">{formError.email}</p>
-                    )}
+                    {formError.email && (<p className='err'>{formError.email}</p>)}
                 </div>
                 <div>
                     <input
@@ -113,11 +100,9 @@ const Form = () => {
                         value={formData.phone}
                         onChange={handleChange}
                     />
-                    {formError.phone && (
-                        <p className="err">{formError.phone}</p>
-                    )}
+                    {formError.phone && (<p className='err'>{formError.phone}</p>)}
                 </div>
-                <input className="regBtn" type="submit" value="Register" />
+                <input type="submit" value="Register" className='regBtn'/>
             </form>
         </div>
     );
